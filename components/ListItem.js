@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {uploadsUrl} from '../utils/variables';
 import PropTypes from 'prop-types';
 
 const ListItem = (props) => {
