@@ -1,18 +1,29 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet,Text,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useUser} from '../hooks/hooksApi';
+import LoginForm from '../components/loginform';
+import RegisterForm from '../components/registerform';
 
 const Login = ({navigation}) => {
-  const {setIsLoggedIn} = useContext(MainContext);
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
+  const {getUserByToken} = useUser();
 
   const checkToken = async () => {
-    const userToken = await AsyncStorage.getItem('x-access-token');
+    const userToken = await AsyncStorage.getItem('userToken');
     console.log('token value in async storage', userToken);
-    // dummy validation for user token
-    if (userToken === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0NywidXNlcm5hbWUiOiJnYWphbGFrYyIsImVtYWlsIjoiZ2FqYWxha2NAbWV0cm9wb2xpYS5maSIsImZ1bGxfbmFtZSI6bnVsbCwiaXNfYWRtaW4iOm51bGwsInRpbWVfY3JlYXRlZCI6IjIwMjItMDEtMTZUMTc6MDU6NTIuMDAwWiIsImlhdCI6MTY0MjM1MzAzMSwiZXhwIjoxNjQyNDM5NDMxfQ.OSnLcdtA8fEWaHZR6awB8apGyRR9SuV1ezrWsYkaA5I') {
+    if (!userToken) {
+      return;
+    }
+    try {
+      const userData = await getUserByToken(userToken);
+      console.log('chekToken', userData);
+      setUser(userData);
       setIsLoggedIn(true);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -20,16 +31,21 @@ const Login = ({navigation}) => {
     checkToken();
   }, []);
 
-  const logIn = async () => {
-    console.log('Login button pressed');
-    await AsyncStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0NywidXNlcm5hbWUiOiJnYWphbGFrYyIsImVtYWlsIjoiZ2FqYWxha2NAbWV0cm9wb2xpYS5maSIsImZ1bGxfbmFtZSI6bnVsbCwiaXNfYWRtaW4iOm51bGwsInRpbWVfY3JlYXRlZCI6IjIwMjItMDEtMTZUMTc6MDU6NTIuMDAwWiIsImlhdCI6MTY0MjM1MzAzMSwiZXhwIjoxNjQyNDM5NDMxfQ.OSnLcdtA8fEWaHZR6awB8apGyRR9SuV1ezrWsYkaA5I');
-    setIsLoggedIn(true);
-  };
   return (
-    <View style={styles.container}>
-      <Text>Login</Text>
-      <Button title="Sign in!" onPress={logIn} />
-    </View>
+    <TouchableOpacity
+      style={{flex: 1}}
+      activeOpacity={1}
+      onPress={() => Keyboard.dismiss()}
+    >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
+        style={styles.container}
+      >
+        <Text>Login</Text>
+        <LoginForm />
+        <RegisterForm />
+      </KeyboardAvoidingView>
+    </TouchableOpacity>
   );
 };
 
@@ -43,7 +59,7 @@ const styles = StyleSheet.create({
 });
 
 Login.propTypes = {
-  navigation: PropTypes.object,
-};
-
-export default Login;
+    navigation: PropTypes.object,
+  };
+  
+  export default Login;
