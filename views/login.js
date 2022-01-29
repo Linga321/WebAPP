@@ -1,11 +1,12 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet,Text,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard} from 'react-native';
+import {StyleSheet,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/hooksApi';
 import LoginForm from '../components/loginform';
 import RegisterForm from '../components/registerform';
+import {Card, Text} from 'react-native-elements';
 
 const Login = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -39,11 +40,22 @@ const Login = ({navigation}) => {
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : ''}
-        style={styles.container}
-      >
-        <Text>Login</Text>
-        <LoginForm />
-        <RegisterForm />
+        style={styles.container} >
+        <View style={styles.appTitle}>
+          <Text>MyApp</Text>
+        </View>
+        <View style={styles.form}>
+          <Card>
+            <Card.Title h4>Login</Card.Title>
+            <Card.Divider />
+            <LoginForm />
+          </Card>
+          <Card>
+            <Card.Title h4>Register</Card.Title>
+            <Card.Divider />
+            <RegisterForm />
+          </Card>
+        </View>
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );
