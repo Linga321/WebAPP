@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Avatar, ListItem as RNEListItem} from 'react-native-elements';
-
 const ListItem = ({navigation, singleMedia}) => {
   return (
     <RNEListItem bottomItem

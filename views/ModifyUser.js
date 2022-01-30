@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Alert, View} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
+import {MainContext} from '../contexts/MainContext';
 import {useUser} from '../hooks/hooksApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Input, Button} from 'react-native-elements';
 import {PropTypes} from 'prop-types';
 
-const RegisterForm = ({setFormToggle}) => {
-  const {postUser, checkUsername} = useUser();
 
+const ModifyUser = ({navigation}) => {
+  const {putUser, checkUsername} = useUser();
+  const {user, setUser} = useContext(MainContext);
   const {
     control,
     handleSubmit,
@@ -15,24 +18,29 @@ const RegisterForm = ({setFormToggle}) => {
     getValues,
   } = useForm({
     defaultValues: {
-      username: '',
+      username: user.username,
       password: '',
       confirmPassword: '',
-      email: '',
-      full_name: '',
+      email: user.email,
+      full_name: user.full_name,
     },
-    mode: 'onBlur'
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data) => {
     console.log(data);
     try {
       delete data.confirmPassword;
-      const userData = await postUser(data);
-      console.log('register onSubmit', userData);
+      if (data.password === '') {
+        delete data.password;
+      }
+      const userToken = await AsyncStorage.getItem('userToken');
+      const userData = await putUser(data, userToken);
       if (userData) {
-        Alert.alert('Success', 'User created successfully.');
-        setFormToggle(true);
+        Alert.alert('Success', userData.message);
+        delete data.password;
+        setUser(data);
+        navigation.navigate('Profile');
       }
     } catch (error) {
       console.error(error);
@@ -48,18 +56,6 @@ const RegisterForm = ({setFormToggle}) => {
           minLength: {
             value: 3,
             message: 'Username must be at least 3 characters.',
-          },
-          validate: async (value) => {
-            try {
-              const available = await checkUsername(value);
-              if (available) {
-                return true;
-              } else {
-                return 'Username is already exist.';
-              }
-            } catch (error) {
-              throw new Error(error.message);
-            }
           },
         }}
         render={({field: {onChange, onBlur, value}}) => (
@@ -175,9 +171,8 @@ const RegisterForm = ({setFormToggle}) => {
   );
 };
 
-
-RegisterForm.propTypes = {
-  setFormToggle: PropTypes.func,
+ModifyUser.propTypes = {
+  navigation: PropTypes.object,
 };
 
-export default RegisterForm;
+export default ModifyUser;

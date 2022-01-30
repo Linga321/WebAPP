@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
@@ -6,9 +6,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/hooksApi';
 import LoginForm from '../components/loginform';
 import RegisterForm from '../components/registerform';
-import {Card, Text} from 'react-native-elements';
+import {Card, Text, ButtonGroup} from 'react-native-elements';
 
 const Login = ({navigation}) => {
+  const [formToggle, setFormToggle] = useState(true);
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
 
@@ -45,16 +46,26 @@ const Login = ({navigation}) => {
           <Text>MyApp</Text>
         </View>
         <View style={styles.form}>
-          <Card>
-            <Card.Title h4>Login</Card.Title>
-            <Card.Divider />
-            <LoginForm />
+        <Card>
+            <ButtonGroup
+              onPress={() => setFormToggle(!formToggle)}
+              selectedIndex={formToggle ? 0 : 1}
+              buttons={['Login', 'Register']}
+            />
           </Card>
-          <Card>
-            <Card.Title h4>Register</Card.Title>
-            <Card.Divider />
-            <RegisterForm />
-          </Card>
+          {formToggle ? (
+            <Card>
+              <Card.Title h4>Login</Card.Title>
+              <Card.Divider />
+              <LoginForm />
+            </Card>
+          ) : (
+            <Card>
+              <Card.Title h4>Register</Card.Title>
+              <Card.Divider />
+              <RegisterForm setFormToggle={setFormToggle} />
+            </Card>
+          )}
         </View>
       </KeyboardAvoidingView>
     </TouchableOpacity>

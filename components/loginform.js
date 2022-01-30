@@ -37,40 +37,47 @@ const LoginForm = () => {
       <Controller
         control={control}
         rules={{
-          required: true,
+          required: {value: true, message: 'Enter Username.'},
+          minLength: {
+            value: 3,
+            message: 'Username contains least 3 characters.',
+          },
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            style={{borderWidth: 1, padding: 10}}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
             placeholder="Username"
+            errorMessage={errors.username && errors.username.message}
           />
         )}
         name="username"
       />
-      {errors.username && <Text>This is required.</Text>}
 
-      <Controller control={control}
+      <Controller
+        control={control}
         rules={{
-          required: true,
+          required: {value: true, message: 'Enter Password.'},
+          minLength: {
+            value: 5,
+            message: 'Password contains least 3 characters.',
+          },
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            style={{borderWidth: 1, padding: 10}}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
             secureTextEntry={true}
             placeholder="Password"
+            errorMessage={errors.password && errors.password.message}
           />
         )}
         name="password"
       />
-      {errors.password && <Text>This is required.</Text>}
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
   );
