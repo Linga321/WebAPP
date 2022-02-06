@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard, View} from 'react-native';
+import {StyleSheet,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard, View, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,7 +7,7 @@ import {useUser} from '../hooks/hooksApi';
 import LoginForm from '../components/loginform';
 import RegisterForm from '../components/registerform';
 import {Card, Text, ButtonGroup} from 'react-native-elements';
-
+import LottieView from 'lottie-react-native';
 const Login = ({navigation}) => {
   const [formToggle, setFormToggle] = useState(true);
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -42,10 +42,11 @@ const Login = ({navigation}) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : ''}
         style={styles.container} >
+
         <View style={styles.appTitle}>
           <Text>MyApp</Text>
         </View>
-        <View style={styles.form}>
+        <ScrollView contentContainerStyle={styles.container2}>
         <Card>
             <ButtonGroup
               onPress={() => setFormToggle(!formToggle)}
@@ -66,7 +67,7 @@ const Login = ({navigation}) => {
               <RegisterForm setFormToggle={setFormToggle} />
             </Card>
           )}
-        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );
@@ -78,6 +79,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  container2: {
+    padding: 16,
   },
 });
 

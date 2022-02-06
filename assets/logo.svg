@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="640" height="480" viewBox="0 0 640 480" xml:space="preserve">
+<desc>Created with Fabric.js 3.6.3</desc>
+<defs>
+</defs>
+<g transform="matrix(1.79 0 0 1.79 339.66 232.66)"  >
+<linearGradient id="SVGID_344" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -50 -50)"  x1="0" y1="50" x2="100" y2="50">
+<stop offset="0%" style="stop-color:rgba(0, 0, 0, 0.4);"/>
+<stop offset="53.171%" style="stop-color:rgba(181, 55, 55, 1);"/>
+</linearGradient>
+<polygon style="stroke: rgb(0,0,0); stroke-opacity: 0; stroke-width: 8; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_344); fill-rule: nonzero; opacity: 1;"  points="-50,-50 -50,50 50,50 50,-50 " />
+</g>
+<g transform="matrix(0.61 0 0 0.61 372.71 204.26)"  >
+<linearGradient id="SVGID_345" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -65 -65)"  x1="19.5" y1="19.5" x2="110.5" y2="110.5">
+<stop offset="0%" style="stop-color:rgba(135, 255, 80, 1);"/>
+<stop offset="99.512%" style="stop-color:rgba(255, 0, 197, 1);"/>
+</linearGradient>
+<circle style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_345); fill-rule: nonzero; opacity: 1;"  cx="0" cy="0" r="65" />
+</g>
+<g transform="matrix(2.51 0 0 2.51 380.71 288.79)" style=""  >
+		<text xml:space="preserve" font-family="'Dancing Script', cursive" font-size="18" font-style="normal" font-weight="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-40" y="5.65" style="font-weight: bold; fill: rgb(1,31,141); ">My App.</tspan></text>
+</g>
+</svg>
