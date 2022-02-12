@@ -1,18 +1,19 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard, View, ScrollView} from 'react-native';
-import PropTypes from 'prop-types';
+import React, {useContext, useEffect, useState, createRef} from 'react';
+import LottieView from 'lottie-react-native';
+import {StyleSheet,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard, ScrollView} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/hooksApi';
 import LoginForm from '../components/loginform';
 import RegisterForm from '../components/registerform';
-import {Card, Text, ButtonGroup} from 'react-native-elements';
-import LottieView from 'lottie-react-native';
+import {Card, ButtonGroup} from 'react-native-elements';
+import PropTypes from "prop-types";
+
 const Login = ({navigation}) => {
   const [formToggle, setFormToggle] = useState(true);
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
-
+  const animation = createRef();
   const checkToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     console.log('token value in async storage', userToken);
@@ -31,8 +32,8 @@ const Login = ({navigation}) => {
 
   useEffect(() => {
     checkToken();
+    animation.current?.play();
   }, []);
-
   return (
     <TouchableOpacity
       style={{flex: 1}}
@@ -42,17 +43,20 @@ const Login = ({navigation}) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : ''}
         style={styles.container} >
-
-        <View style={styles.appTitle}>
-          <Text>MyApp</Text>
-        </View>
         <ScrollView contentContainerStyle={styles.container2}>
         <Card>
-            <ButtonGroup
-              onPress={() => setFormToggle(!formToggle)}
-              selectedIndex={formToggle ? 0 : 1}
-              buttons={['Login', 'Register']}
+          <Card.Image>
+            <LottieView
+              source={require('../assets/93494-step-loader.json')}
+              ref={animation}
+              loop={false}
             />
+          </Card.Image>
+          <ButtonGroup
+            onPress={() => setFormToggle(!formToggle)}
+            selectedIndex={formToggle ? 0 : 1}
+            buttons={['Login', 'Register']}
+          />
           </Card>
           {formToggle ? (
             <Card>
@@ -83,10 +87,15 @@ const styles = StyleSheet.create({
   container2: {
     padding: 16,
   },
+  animation: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
 
 Login.propTypes = {
     navigation: PropTypes.object,
+    style: PropTypes.any,
   };
   
   export default Login;

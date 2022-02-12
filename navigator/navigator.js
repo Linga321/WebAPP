@@ -11,6 +11,8 @@ import {MainContext} from '../contexts/MainContext';
 import {Icon} from 'react-native-elements';
 import ModifyUser from '../views/ModifyUser';
 import Upload from '../views/upload';
+import MyFiles from '../views/myFiles';
+import Modify from '../views/modifyFiles';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -23,13 +25,13 @@ const TabScreen = () => {
           let iconName;
           switch (route.name) {
             case 'Home':
-              iconName = 'Home';
+              iconName = 'home';
               break;
             case 'Upload':
-              iconName = 'Cloud-Upload';
+              iconName = 'cloud-upload';
               break;
             case 'Profile':
-              iconName = 'Account-Box';
+              iconName = 'account-box';
               break;
           }
           return <Icon name={iconName} size={size} color={color} />;
@@ -50,13 +52,11 @@ const StackScreen = () => {
     <Stack.Navigator>
       {isLoggedIn ? (
         <>
-          <Stack.Screen
-            name="Main"
-            component={TabScreen}
-            options={{headerShown: false}}
-          ></Stack.Screen>
+          <Stack.Screen name="Main" component={TabScreen} options={{headerShown: false}}></Stack.Screen>
           <Stack.Screen name="Single" component={Single}></Stack.Screen>
           <Stack.Screen name="Modify User" component={ModifyUser}></Stack.Screen>
+          <Stack.Screen name="My Files" component={MyFiles}></Stack.Screen>
+          <Stack.Screen name="Modify" component={Modify}></Stack.Screen>
         </>
       ) : (
         <Stack.Screen name="Login" component={Login}></Stack.Screen>

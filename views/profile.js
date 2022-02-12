@@ -6,6 +6,7 @@ import {useTag} from '../hooks/hooksApi';
 import {uploadsUrl} from '../utils/variables';
 import {Card, Text, Button, ListItem, Avatar} from 'react-native-elements';
 import {PropTypes} from 'prop-types';
+
 const Profile = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
   const [avatar, setAvatar] = useState('http://placekitten.com/640');
@@ -45,7 +46,7 @@ const Profile = ({navigation}) => {
           <Avatar icon={{name: 'user', type: 'font-awesome', color: 'black'}} />
           <Text>{user.full_name}</Text>
         </ListItem>
-        <Button
+          <Button
             title="Log out!"
             onPress={async () => {
               await AsyncStorage.clear();
@@ -58,13 +59,23 @@ const Profile = ({navigation}) => {
               navigation.navigate('Modify User');
             }}
           />
+          <Button
+            title="My Files"
+            onPress={() => {
+              navigation.navigate('My Files');
+            }}
+          />
       </Card>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  image: {width: '100%', height: '30%', aspectRatio: 1},
+  image: {
+    width: '100%', 
+    height: '30%', 
+    aspectRatio: 1
+  },
 });
 
 Profile.propTypes = {
