@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {createRef, useContext, useEffect, useState} from 'react';
 import {StyleSheet,KeyboardAvoidingView,Platform,TouchableOpacity,Keyboard, View, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
@@ -12,7 +12,7 @@ const Login = ({navigation}) => {
   const [formToggle, setFormToggle] = useState(true);
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
-
+  const animation = createRef();
   const checkToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     console.log('token value in async storage', userToken);
@@ -31,6 +31,7 @@ const Login = ({navigation}) => {
 
   useEffect(() => {
     checkToken();
+    animation.current?.play();
   }, []);
 
   return (
@@ -48,6 +49,14 @@ const Login = ({navigation}) => {
         </View>
         <ScrollView contentContainerStyle={styles.container2}>
         <Card>
+            <Card.Image>
+              <LottieView
+                ref={animation}
+                source={require('../assets/lottie-animation.json')}
+                style={styles.animation}
+                loop={false}
+              />
+            </Card.Image>
             <ButtonGroup
               onPress={() => setFormToggle(!formToggle)}
               selectedIndex={formToggle ? 0 : 1}
